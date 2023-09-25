@@ -1,4 +1,4 @@
-# PreEntrega2Molinari
+# PreEntrega3Molinari
 
 ---------->Uso Simulador "Carrito de Compra"<----------
 Para utitlizar el simulador de "Carrito de Compra" se debe ir al menu "Suplementos-->Proteínas"
@@ -9,6 +9,7 @@ para luego ir al botón de finalizar compra(Si no se agregan productos, se pedir
 -Luego se mostrará un detalle de la compra con el monto
 -Por último saltará un mensaje si la compra fue realizada con éxito y el carro de compras quedará vacio.
 
+<<<<<<< HEAD
 ---------->Se agrega para la PreEntrega3<----------
 Para utitlizar el botón "Más Opciones" se debe ir al menu "Suplementos-->Proteínas" y hacer click sobre el bóton "Mas Opciones" ubicado a la izquierda del botón "Finalizar Compra". Al hacer click se motraran las siguientes opciones:
 1. consultarCatalogo:
@@ -50,3 +51,6 @@ Para utitlizar el botón "Más Opciones" se debe ir al menu "Suplementos-->Prote
    - Utiliza el método `sort` para ordenar el catálogo en orden descendente según el precio de los productos.
    - Luego, recorre el catálogo ordenado y utiliza el método `mostrarInfo()` de cada objeto `Producto` para obtener la información detallada de cada producto (nombre, descripción y precio).
    - Finalmente, muestra una ventana emergente con la información detallada de todos los productos del catálogo ordenados por precio de mayor a menor.# PreEntrega3Molinari
+=======
+---------->Se agrega para la PreEntrega3"<----------
+>>>>>>> 33632e0c633b2dd4668d6d859177a37cb9450e52
