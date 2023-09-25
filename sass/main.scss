@@ -1,0 +1,272 @@
+// Definición de variables
+$icon-size: 30px;
+$max-logo-height: 50px;
+$max-width-10: 20rem;
+$background-image-url: '../img/gymbros_fondo_sitio_claro.png';
+$input-container-max-width: 300px;
+$carousel-bg-color: black;
+$carousel-img-max-size: 70%;
+
+// Mixin para la fuente
+@mixin font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+// Estilos
+.social-icon-img {
+  width: $icon-size;
+  height: $icon-size;
+}
+
+.logo-img {
+  max-height: $max-logo-height;
+}
+
+.max-width-10 {
+  max-width: $max-width-10;
+}
+
+.background-image-container {
+  background-image: url('#{$background-image-url}');
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 700px;  
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  //height: 100vh;
+}
+
+.input-container {
+  max-width: $input-container-max-width;
+  margin: 0px auto;
+}
+
+#mySlider.carousel {
+  background-color: $carousel-bg-color;
+}
+
+#mySlider {
+  .carousel-inner {
+    .carousel-item img {
+      max-width: $carousel-img-max-size;
+      max-height: $carousel-img-max-size;
+      margin: 0px auto;
+    }
+  }
+}
+
+body {
+  @include font-montserrat;
+}
+
+.row {
+  margin-top: 30px;
+  max-width: 100%;
+}
+
+//Estilo de items del menú de navegación
+.navbar-nav .nav-item .nav-link {
+  color: #FACF39; /* Cambia el color según tu preferencia */
+}
+
+// ... (otros estilos previos) ...
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    background-color: #343a40; // Cambia el color según tu preferencia
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+.dropdown-item {
+    color: #FACF39; // Cambia el color según tu preferencia
+    padding: 8px 20px;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: #FACF39; // Cambia el color según tu preferencia
+    color: #343a40; // Cambia el color según tu preferencia
+}
+
+//Estilo de fotos del equipo
+.circular-image {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+// Estilos de la grilla de rutinas
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-bottom: 2rem;
+  text-align: center;  
+}
+
+.time-cell, 
+.day-cell {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+}
+
+.time-cell {
+  font-weight: bold;
+  background-color: #f5f5f5;
+}
+
+.day-cell {
+  background-color: #fff;
+}
+
+
+// .container {
+//     text-align: center;
+
+//     @media (max-width: 768px) {
+//         .schedule-grid {
+//           display: block;
+//           text-align: center;
+//           grid-template-columns: 1fr;
+//         }
+
+//         .time-cell,
+//         .day-cell {
+//           border: none;
+//           padding: 5px;
+//         }       
+//     }
+// }
+
+//Formato de texto SOBRE NOSOTROS
+.text-center{
+  text-justify: justify;
+}
+
+.text-container {
+  margin: 0 auto; // Centra el contenido horizontalmente
+  padding: 20px; // Agrega un espacio alrededor del texto
+}
+
+p {
+  font-size: 24px; // Ajusta el tamaño de la fuente según tu preferencia
+  line-height: 1.6; // Ajusta el espaciado entre líneas
+  margin-bottom: 20px; // Añade un margen inferior para separar los párrafos
+}
+
+//FORMATO DE GRILLA DE PRODUCTOS
+.product-card {
+  flex: 1;
+  margin: 10px;
+}
+@media (max-width: 576px) {
+  #productGrid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+}
+
+.background-image-container {
+  // ...
+
+  .container {
+    @media (max-width: 576px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      //height: 100vh; // Ajusta la altura para centrar verticalmente
+    }
+  }
+}
+
+
+//Aplicacion de animaciones
+.btn-warning:hover {
+  transform: scale(1.1); 
+  transition: transform 0.3s; 
+}
+
+.btn-primary:hover {
+  transform: scale(1.1); 
+  transition: transform 0.3s; 
+}
+
+.social-icon-img:hover {
+  transform: scale(1.1); 
+  transition: transform 0.3s; 
+}
+
+.logo-letters:hover {
+  transform: translateX(20px); 
+  transition: transform 0.3s; 
+}
+
+// .navbar-nav .nav-item:hover {
+//   transform: scaleX(1.1); 
+//   transition: transform 0.3s; 
+// }
+
+
+@keyframes rotateYAnimation {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.logo-imagen:hover {
+  animation: rotateYAnimation 1s linear; 
+}
+
+//icono flotante de WhatsApp
+.floating-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 100; /* Asegura que esté en la capa superior */
+}
+
+.whatsapp-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+  color: white;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  text-decoration: none;
+}
+
+.whatsapp-icon img {
+  width: 34px;
+  height: 34px;
+}
+
+//doy margen para que el efecto sobre el menu no afecte el ancho de la página
+.navbar-nav {
+  margin-top: 20px;
+} 
+
+.navbar-nav li.nav-item {
+  margin-right: 20px;
+} 
+
+.media:hover iframe {
+  transform: translateY(-10px); 
+  transition: transform 0.3s; 
+}
+

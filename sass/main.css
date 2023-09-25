@@ -1,0 +1,211 @@
+@charset "UTF-8";
+.social-icon-img {
+  width: 30px;
+  height: 30px;
+}
+
+.logo-img {
+  max-height: 50px;
+}
+
+.max-width-10 {
+  max-width: 20rem;
+}
+
+.background-image-container {
+  background-image: url("../img/gymbros_fondo_sitio_claro.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-container {
+  max-width: 300px;
+  margin: 0px auto;
+}
+
+#mySlider.carousel {
+  background-color: black;
+}
+
+#mySlider .carousel-inner .carousel-item img {
+  max-width: 70%;
+  max-height: 70%;
+  margin: 0px auto;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.row {
+  margin-top: 30px;
+  max-width: 100%;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #FACF39; /* Cambia el color según tu preferencia */
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu {
+  background-color: #343a40;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.dropdown-item {
+  color: #FACF39;
+  padding: 8px 20px;
+  text-align: left;
+  transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+  background-color: #FACF39;
+  color: #343a40;
+}
+
+.circular-image {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.time-cell,
+.day-cell {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+}
+
+.time-cell {
+  font-weight: bold;
+  background-color: #f5f5f5;
+}
+
+.day-cell {
+  background-color: #fff;
+}
+
+.text-center {
+  text-justify: justify;
+}
+
+.text-container {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+p {
+  font-size: 24px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.product-card {
+  flex: 1;
+  margin: 10px;
+}
+
+@media (max-width: 576px) {
+  #productGrid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 576px) {
+  .background-image-container .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.btn-warning:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}
+
+.social-icon-img:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}
+
+.logo-letters:hover {
+  transform: translateX(20px);
+  transition: transform 0.3s;
+}
+
+@keyframes rotateYAnimation {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+.logo-imagen:hover {
+  animation: rotateYAnimation 1s linear;
+}
+
+.floating-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 100; /* Asegura que esté en la capa superior */
+}
+
+.whatsapp-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+  color: white;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  text-decoration: none;
+}
+
+.whatsapp-icon img {
+  width: 34px;
+  height: 34px;
+}
+
+.navbar-nav {
+  margin-top: 20px;
+}
+
+.navbar-nav li.nav-item {
+  margin-right: 20px;
+}
+
+.media:hover iframe {
+  transform: translateY(-10px);
+  transition: transform 0.3s;
+}/*# sourceMappingURL=main.css.map */

@@ -9,7 +9,7 @@ para luego ir al botón de finalizar compra(Si no se agregan productos, se pedir
 -Luego se mostrará un detalle de la compra con el monto
 -Por último saltará un mensaje si la compra fue realizada con éxito y el carro de compras quedará vacio.
 
----------->Se agrega para la PreEntrega2 el botón "Mas Opciones"<----------
+---------->Se agrega para la PreEntrega3<----------
 Para utitlizar el botón "Más Opciones" se debe ir al menu "Suplementos-->Proteínas" y hacer click sobre el bóton "Mas Opciones" ubicado a la izquierda del botón "Finalizar Compra". Al hacer click se motraran las siguientes opciones:
 1. consultarCatalogo:
    - Esta función muestra un mensaje emergente con el catálogo completo de productos.
