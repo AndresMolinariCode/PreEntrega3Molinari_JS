@@ -130,6 +130,23 @@ p {
     flex-direction: column;
     align-items: center;
   }
+  footer {
+    margin-bottom: 100px; /* Puedes ajustar el valor según sea necesario */
+  }
+  .whatsapp-icon {
+    width: 50px;
+    height: 50px;
+    background-color: green;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 998;
+  }
+  .whatsapp-icon img {
+    width: 40px;
+    height: 40px;
+    z-index: 998;
+  }
 }
 @media (max-width: 576px) {
   .background-image-container .container {
@@ -177,7 +194,7 @@ p {
   bottom: 20px;
   right: 20px;
   text-align: center;
-  z-index: 100; /* Asegura que esté en la capa superior */
+  z-index: 100000; /* Asegura que esté en la capa superior */
 }
 
 .whatsapp-icon {
@@ -190,11 +207,12 @@ p {
   height: 70px;
   border-radius: 50%;
   text-decoration: none;
+  z-index: 998;
 }
 
 .whatsapp-icon img {
-  width: 34px;
-  height: 34px;
+  width: 50px;
+  height: 50px;
 }
 
 .navbar-nav {
@@ -208,4 +226,10 @@ p {
 .media:hover iframe {
   transform: translateY(-10px);
   transition: transform 0.3s;
+}
+
+/* Estilo para el input responsive */
+.responsive-input {
+  width: 100%; /* El input ocupará el 100% del espacio disponible */
+  max-width: 400px; /* Ancho máximo específico para controlar el tamaño máximo */
 }/*# sourceMappingURL=main.css.map */

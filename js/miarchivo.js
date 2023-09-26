@@ -25,28 +25,37 @@ const products = [
 
 const productGrid = document.getElementById('productGrid');
 
-//Uso de bucles
+// Uso de bucles
+const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
+
 products.forEach((product, index) => {
-  const productCard = document.createElement('div');
-  productCard.className = 'col-md-4 mb-4';
+    const productCard = document.createElement('div');
+    productCard.className = 'col-md-4 mb-4';
+
+    // Limitar la descripción a un número máximo de caracteres
+    const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
+    const truncatedDescription = product.description.length > maxDescriptionLength
+    ? product.description.slice(0, maxDescriptionLength) + '...'
+    : product.description;
 
     productCard.innerHTML = `
-        <div class="card">
-            <img src="${product.image}" class="card-img-top" alt="${product.title}">
-            <div class="card-body">
-                <h5 class="card-title">${product.title}</h5>
-                <p class="card-text">${product.description}</p>
-                <p class="card-text">$${product.price.toFixed(2)}</p>
-                <div class="input-group mb-3">
-                    <input type="number" class="form-control" value="1" min="1" id="quantity${index}">
-                    <button class="btn btn-primary" onclick="addToCart(${index})">Agregar al carrito</button>
-                </div>
+    <div class="card">
+        <img src="${product.image}" class="card-img-top product-image img-fluid" alt="${product.title}"> <!-- Utiliza la clase "img-fluid" para hacer la imagen responsive -->
+        <div class="card-body">
+            <h5 class="card-title">${product.title}</h5>
+            <p class="card-text">${truncatedDescription}</p>
+            <p class="card-text">$${product.price.toFixed(2)}</p>
+            <div class="input-group mb-3">
+                <input type="number" class="form-control" value="1" min="1" id="quantity${index}">
+                <button class="btn btn-primary" onclick="addToCart(${index})">Agregar al carrito</button>
             </div>
         </div>
+    </div>
     `;
 
-  productGrid.appendChild(productCard);
+    productGrid.appendChild(productCard);
 });
+
 
 const cart = [];
 

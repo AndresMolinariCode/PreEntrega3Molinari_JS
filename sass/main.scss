@@ -34,7 +34,6 @@ $carousel-img-max-size: 70%;
   display: flex;
   align-items: center;
   justify-content: center;  
-  //height: 100vh;
 }
 
 .input-container {
@@ -127,25 +126,6 @@ body {
   background-color: #fff;
 }
 
-
-// .container {
-//     text-align: center;
-
-//     @media (max-width: 768px) {
-//         .schedule-grid {
-//           display: block;
-//           text-align: center;
-//           grid-template-columns: 1fr;
-//         }
-
-//         .time-cell,
-//         .day-cell {
-//           border: none;
-//           padding: 5px;
-//         }       
-//     }
-// }
-
 //Formato de texto SOBRE NOSOTROS
 .text-center{
   text-justify: justify;
@@ -173,24 +153,38 @@ p {
       flex-direction: column;
       align-items: center;
   }
+  footer {
+    margin-bottom: 100px; /* Puedes ajustar el valor según sea necesario */
+  } 
+  .whatsapp-icon {
+    width: 50px;
+    height: 50px;
+    background-color: green;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 998;
+  }
+
+  .whatsapp-icon img {
+    width: 40px;
+    height: 40px;
+    z-index: 998;
+  }
 }
 
 .background-image-container {
-  // ...
-
   .container {
     @media (max-width: 576px) {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      //height: 100vh; // Ajusta la altura para centrar verticalmente
+      justify-content: center;     
     }
   }
 }
 
-
-//Aplicacion de animaciones
+//Aplicación de animaciones
 .btn-warning:hover {
   transform: scale(1.1); 
   transition: transform 0.3s; 
@@ -211,12 +205,6 @@ p {
   transition: transform 0.3s; 
 }
 
-// .navbar-nav .nav-item:hover {
-//   transform: scaleX(1.1); 
-//   transition: transform 0.3s; 
-// }
-
-
 @keyframes rotateYAnimation {
   0% {
     transform: rotateY(0deg);
@@ -232,11 +220,20 @@ p {
 
 //icono flotante de WhatsApp
 .floating-icon {
+  // background: url(/build/images/whatsapp.b3bd179e.svg) no-repeat 50%;
+  // background-size: contain;
+  // height: 50px;
+  // margin: auto;
+  // position: fixed;
+  // right: 20px;
+  // bottom: 20px;
+  // width: 50px;
+  // z-index: 998;
   position: fixed;
   bottom: 20px;
   right: 20px;
   text-align: center;
-  z-index: 100; /* Asegura que esté en la capa superior */
+  z-index: 100000; /* Asegura que esté en la capa superior */
 }
 
 .whatsapp-icon {
@@ -249,14 +246,15 @@ p {
   height: 70px;
   border-radius: 50%;
   text-decoration: none;
+  z-index: 998;
 }
 
 .whatsapp-icon img {
-  width: 34px;
-  height: 34px;
+  width: 50px;
+  height: 50px;
 }
 
-//doy margen para que el efecto sobre el menu no afecte el ancho de la página
+//doy margen para que el efecto sobre el menú no afecte el ancho de la página
 .navbar-nav {
   margin-top: 20px;
 } 
@@ -270,3 +268,8 @@ p {
   transition: transform 0.3s; 
 }
 
+/* Estilo para el input responsive */
+.responsive-input {
+  width: 100%; /* El input ocupará el 100% del espacio disponible */
+  max-width: 400px; /* Ancho máximo específico para controlar el tamaño máximo */
+}
