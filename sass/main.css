@@ -140,12 +140,12 @@ p {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 998;
+    z-index: 9999999;
   }
   .whatsapp-icon img {
     width: 40px;
     height: 40px;
-    z-index: 998;
+    z-index: 9999999;
   }
 }
 @media (max-width: 576px) {
@@ -194,7 +194,7 @@ p {
   bottom: 20px;
   right: 20px;
   text-align: center;
-  z-index: 100000; /* Asegura que esté en la capa superior */
+  z-index: 9999999; /* Asegura que esté en la capa superior */
 }
 
 .whatsapp-icon {
@@ -232,4 +232,36 @@ p {
 .responsive-input {
   width: 100%; /* El input ocupará el 100% del espacio disponible */
   max-width: 400px; /* Ancho máximo específico para controlar el tamaño máximo */
+}
+
+.container.mt-5 .d-flex {
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .container.mt-5 .d-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+.container.mt-5 .d-flex .responsive-input {
+  margin-bottom: 1rem;
+  width: 18rem;
+}
+@media (max-width: 767px) {
+  .container.mt-5 .d-flex select {
+    width: 18rem;
+  }
+}
+
+#productGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  text-align: center; /* Centra el contenido de manera horizontal dentro de los elementos */
+}
+
+footer {
+  margin-bottom: 0;
 }/*# sourceMappingURL=main.css.map */

@@ -163,13 +163,15 @@ p {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 998;
+    z-index: 9999999;
+    // display: block;
+    // position: fixed;
   }
 
   .whatsapp-icon img {
     width: 40px;
     height: 40px;
-    z-index: 998;
+    z-index: 9999999;
   }
 }
 
@@ -220,20 +222,11 @@ p {
 
 //icono flotante de WhatsApp
 .floating-icon {
-  // background: url(/build/images/whatsapp.b3bd179e.svg) no-repeat 50%;
-  // background-size: contain;
-  // height: 50px;
-  // margin: auto;
-  // position: fixed;
-  // right: 20px;
-  // bottom: 20px;
-  // width: 50px;
-  // z-index: 998;
   position: fixed;
   bottom: 20px;
   right: 20px;
   text-align: center;
-  z-index: 100000; /* Asegura que esté en la capa superior */
+  z-index: 9999999; /* Asegura que esté en la capa superior */
 }
 
 .whatsapp-icon {
@@ -272,4 +265,46 @@ p {
 .responsive-input {
   width: 100%; /* El input ocupará el 100% del espacio disponible */
   max-width: 400px; /* Ancho máximo específico para controlar el tamaño máximo */
+}
+
+.container.mt-5 {
+  .d-flex {
+      justify-content: space-between;
+      align-items: center;
+
+      @media (max-width: 767px) {
+          flex-direction: column; // Cambia la dirección a columna en dispositivos móviles
+          text-align: center; // Centra el contenido
+      }
+
+      .responsive-input {
+          margin-bottom: 1rem; // Espacio entre el input y el select en dispositivos móviles
+          width: 18rem;
+      }
+
+      select {
+          @media (max-width: 767px) {
+              width: 18rem; // Ancho completo en dispositivos móviles
+          }
+      }
+  }
+}
+
+#productGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  text-align: center; /* Centra el contenido de manera horizontal dentro de los elementos */
+}
+
+// @media (max-width: 768px) {
+//   footer .col-12.text-center:last-child {
+//     margin-bottom: 50px; /* Ajusta el valor según sea necesario */
+//   }
+// }
+
+//Me aseguro que no se muestre nada a continuación del footer
+footer {
+  margin-bottom: 0;
 }

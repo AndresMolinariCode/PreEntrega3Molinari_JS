@@ -25,7 +25,6 @@ const products = [
 
 const productGrid = document.getElementById('productGrid');
 
-// Uso de bucles
 const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
 
 products.forEach((product, index) => {
@@ -33,15 +32,14 @@ products.forEach((product, index) => {
     productCard.className = 'col-md-4 mb-4';
 
     // Limitar la descripción a un número máximo de caracteres
-    const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
     const truncatedDescription = product.description.length > maxDescriptionLength
     ? product.description.slice(0, maxDescriptionLength) + '...'
     : product.description;
 
     productCard.innerHTML = `
     <div class="card">
-        <img src="${product.image}" class="card-img-top product-image img-fluid" alt="${product.title}"> <!-- Utiliza la clase "img-fluid" para hacer la imagen responsive -->
-        <div class="card-body">
+        <img src="${product.image}" class="card-img-top product-image mx-auto" alt="${product.title}">
+        <div class="card-body text-center">
             <h5 class="card-title">${product.title}</h5>
             <p class="card-text">${truncatedDescription}</p>
             <p class="card-text">$${product.price.toFixed(2)}</p>
@@ -53,8 +51,14 @@ products.forEach((product, index) => {
     </div>
     `;
 
+    // Establecer atributos de alto y ancho máximo a la imagen
+    const imageElement = productCard.querySelector('.product-image');
+    imageElement.setAttribute('style', 'max-width: 300px; max-height: 350px;');
+
     productGrid.appendChild(productCard);
 });
+
+
 
 
 const cart = [];
@@ -284,7 +288,6 @@ function menu() {
     } while (!salirMenu);
 }
 
-
 function consultarCatalogo() {
     let mensaje = "Catálogo de Productos:\n\n";   
 
@@ -422,10 +425,10 @@ function listarProductosMayorMenorPrecio() {
 document.addEventListener("DOMContentLoaded", function() {
     // Obtener referencias a los botones
     const finalizarCompraBtn = document.getElementById("finalizarCompraBtn");
-    const masOpcionesBtn = document.getElementById("masOpcionesBtn");
+    //const masOpcionesBtn = document.getElementById("masOpcionesBtn");
 
     // Agregar evento de clic al botón "Mas Opciones"
-    masOpcionesBtn.addEventListener("click", menu);
+    //masOpcionesBtn.addEventListener("click", menu);
 
     // Agregar evento de clic al botón "Finalizar Compra"
     finalizarCompraBtn.addEventListener("click", finalizarCompra);
