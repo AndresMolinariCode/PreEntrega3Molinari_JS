@@ -517,16 +517,12 @@ function iniciarSesion() {
         // Mostrar un mensaje de error
         alert("Los datos son incorrectos. Inténtalo de nuevo.");
     }
+
+    document.getElementById("usuario").value = "";
+    document.getElementById("contrasena").value = "";
 }
 
 //FIN CODIGO PARA CUMPLIMIENTO DE REQUISITOS DE PRE ENTREGA
-let validarInicioSesion = document.getElementById("btnIniciarSesion")
-
-guardarLibroBtn.addEventListener("click", () =>{
-    
-    iniciarSesion()
-} )
-
 
 // Esperar a que el documento esté completamente cargado
 document.addEventListener("DOMContentLoaded", function() {
