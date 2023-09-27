@@ -17,7 +17,7 @@ const products = [
   },
   {
       image: '../img/Suplementos/WheyProtein/WheyProtein_3-removebg-preview.png',
-      title: 'Integralmedica Whey Protein Isolate',
+      title: 'Integralmedica Whey Protein',
       description: 'Promueve el aumento de masa muscular a través del incremento de síntesis proteica. Mantiene balance positivo de nitrógeno, evitando la degradación de músculo.',
       price: 29.99
   },  
@@ -27,14 +27,48 @@ const productGrid = document.getElementById('productGrid');
 
 const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
 
+// products.forEach((product, index) => {
+//     const productCard = document.createElement('div');
+//     productCard.className = 'col-md-4 mb-4';
+
+//     // Limitar la descripción a un número máximo de caracteres
+//     const truncatedDescription = product.description.length > maxDescriptionLength
+//     ? product.description.slice(0, maxDescriptionLength) + '...'
+//     : product.description;
+
+//     productCard.innerHTML = `
+//     <div class="card">
+//         <img src="${product.image}" class="card-img-top product-image mx-auto" alt="${product.title}">
+//         <div class="card-body text-center">
+//             <h5 class="card-title">${product.title}</h5>
+//             <p class="card-text">${truncatedDescription}</p>
+//             <p class="card-text">$${product.price.toFixed(2)}</p>
+//             <div class="input-group mb-3">
+//                 <input type="number" class="form-control" value="1" min="1" id="quantity${index}">
+//                 <button class="btn btn-primary" onclick="addToCart(${index})">Agregar al carrito</button>
+//             </div>
+//         </div>
+//     </div>
+//     `;
+
+//     // Establecer atributos de alto y ancho máximo a la imagen
+//     const imageElement = productCard.querySelector('.product-image');
+//     imageElement.setAttribute('style', 'max-width: 300px; max-height: 350px;');
+
+//     productGrid.appendChild(productCard);
+
+    
+// });
+
+
 products.forEach((product, index) => {
     const productCard = document.createElement('div');
     productCard.className = 'col-md-4 mb-4';
 
     // Limitar la descripción a un número máximo de caracteres
     const truncatedDescription = product.description.length > maxDescriptionLength
-    ? product.description.slice(0, maxDescriptionLength) + '...'
-    : product.description;
+        ? product.description.slice(0, maxDescriptionLength) + '...'
+        : product.description;
 
     productCard.innerHTML = `
     <div class="card">
@@ -44,8 +78,14 @@ products.forEach((product, index) => {
             <p class="card-text">${truncatedDescription}</p>
             <p class="card-text">$${product.price.toFixed(2)}</p>
             <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <button type="button" class="btn btn-sm" onclick="decreaseQuantity(${index})">-</button>
+                </span>
                 <input type="number" class="form-control" value="1" min="1" id="quantity${index}">
-                <button class="btn btn-primary" onclick="addToCart(${index})">Agregar al carrito</button>
+                <span class="input-group-text">
+                    <button type="button" class="btn btn-sm" onclick="increaseQuantity(${index})">+</button>
+                </span>
+                <button class="btn btn-warning" onclick="addToCart(${index})">Agregar</button>
             </div>
         </div>
     </div>
@@ -57,9 +97,6 @@ products.forEach((product, index) => {
 
     productGrid.appendChild(productCard);
 });
-
-
-
 
 const cart = [];
 
@@ -73,6 +110,9 @@ function addToCart(index) {
       });
       alert(`Se agregó ${quantity} ${products[index].title}(s) al carrito`);
       document.getElementById(`quantity${index}`).value = 1;
+
+      // Llamar a la función para actualizar el botón de carrito
+      actualizarBotonCarrito();
   }
 }
 
@@ -419,17 +459,76 @@ function listarProductosMayorMenorPrecio() {
 
     alert(mensaje);
 }
+
+// Función para actualizar la clase del botón de carrito y la cantidad de productos en el carrito
+function actualizarBotonCarrito() {
+    const botonCarrito = document.getElementById('botonCarrito');
+    const carritoCantidad = document.getElementById('carritoCantidad');
+
+     // Calcular la suma de las cantidades de los productos en el carrito
+     let totalCantidad = 0;
+     for (const item of cart) {
+         totalCantidad += item.quantity;
+     }
+
+    // Verificar si hay productos en el carrito
+    if (totalCantidad > 0) {
+        // Si hay productos en el carrito, establecer la clase a "btn-danger"
+        botonCarrito.classList.remove('btn-secondary');
+        botonCarrito.classList.add('btn-danger');
+        carritoCantidad.textContent = ' ' + totalCantidad.toString();;
+    } else {
+        // Si no hay productos en el carrito, establecer la clase a "btn-secondary"
+        botonCarrito.classList.remove('btn-danger');
+        botonCarrito.classList.add('btn-secondary');
+    }
+
+    // Actualizar la cantidad de productos en el carrito    
+    //carritoCantidad.textContent = ' ' + cart.length.toString();
+}
+
+// Llamar a la función para actualizar el botón de carrito cuando se carga la página
+actualizarBotonCarrito();
+
+//Funcion para decrementar las cantidades de unidades a agregar al carrito
+function decreaseQuantity(index) {
+    const quantityInput = document.getElementById(`quantity${index}`);
+    if (quantityInput.value > 1) {
+        quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+}
+//Funcion para aumentar las cantidades de unidades a agregar al carrito
+function increaseQuantity(index) {
+    const quantityInput = document.getElementById(`quantity${index}`);
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+}
+
+function iniciarSesion() {
+    // Obtener los valores de usuario y contraseña ingresados
+    var usuario = document.getElementById("usuario").value;
+    var contrasena = document.getElementById("contrasena").value;
+
+    // Verificar si el usuario y la contraseña son "admin"
+    if (usuario === "admin" && contrasena === "admin") {
+        // Mostrar el modal idModalAgregarSuplemento
+        $('#myModal').modal('hide'); // Cierra el modal de inicio de sesión
+        $('#idModalAgregarSuplemento').modal('show'); // Muestra el otro modal
+    } else {
+        // Mostrar un mensaje de error
+        alert("Los datos son incorrectos. Inténtalo de nuevo.");
+    }
+}
+
 //FIN CODIGO PARA CUMPLIMIENTO DE REQUISITOS DE PRE ENTREGA
+let validarInicioSesion = document.getElementById("btnIniciarSesion")
+
+guardarLibroBtn.addEventListener("click", () =>{
+    
+    iniciarSesion()
+} )
+
 
 // Esperar a que el documento esté completamente cargado
 document.addEventListener("DOMContentLoaded", function() {
-    // Obtener referencias a los botones
-    const finalizarCompraBtn = document.getElementById("finalizarCompraBtn");
-    //const masOpcionesBtn = document.getElementById("masOpcionesBtn");
-
-    // Agregar evento de clic al botón "Mas Opciones"
-    //masOpcionesBtn.addEventListener("click", menu);
-
-    // Agregar evento de clic al botón "Finalizar Compra"
-    finalizarCompraBtn.addEventListener("click", finalizarCompra);
+    document.getElementById("btnIniciarSesion").addEventListener("click", iniciarSesion);
 });
