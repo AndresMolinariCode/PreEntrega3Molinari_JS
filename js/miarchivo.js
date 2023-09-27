@@ -27,40 +27,6 @@ const productGrid = document.getElementById('productGrid');
 
 const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
 
-// products.forEach((product, index) => {
-//     const productCard = document.createElement('div');
-//     productCard.className = 'col-md-4 mb-4';
-
-//     // Limitar la descripción a un número máximo de caracteres
-//     const truncatedDescription = product.description.length > maxDescriptionLength
-//     ? product.description.slice(0, maxDescriptionLength) + '...'
-//     : product.description;
-
-//     productCard.innerHTML = `
-//     <div class="card">
-//         <img src="${product.image}" class="card-img-top product-image mx-auto" alt="${product.title}">
-//         <div class="card-body text-center">
-//             <h5 class="card-title">${product.title}</h5>
-//             <p class="card-text">${truncatedDescription}</p>
-//             <p class="card-text">$${product.price.toFixed(2)}</p>
-//             <div class="input-group mb-3">
-//                 <input type="number" class="form-control" value="1" min="1" id="quantity${index}">
-//                 <button class="btn btn-primary" onclick="addToCart(${index})">Agregar al carrito</button>
-//             </div>
-//         </div>
-//     </div>
-//     `;
-
-//     // Establecer atributos de alto y ancho máximo a la imagen
-//     const imageElement = productCard.querySelector('.product-image');
-//     imageElement.setAttribute('style', 'max-width: 300px; max-height: 350px;');
-
-//     productGrid.appendChild(productCard);
-
-    
-// });
-
-
 products.forEach((product, index) => {
     const productCard = document.createElement('div');
     productCard.className = 'col-md-4 mb-4';

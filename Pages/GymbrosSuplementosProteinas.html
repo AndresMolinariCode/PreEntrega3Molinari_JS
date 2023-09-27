@@ -53,7 +53,6 @@
                                 <a class="dropdown-item" href="#">Proteínas</a>
                                 <a class="dropdown-item" href="#">Pre Entrenos</a>
                                 <a class="dropdown-item" href="#">Quemadores</a>
-                                <!-- <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#idModalAgregarSuplemento">Administar Stock</a> -->
                                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModal">Administar Stock</a>
                             </div>
                         </li>
@@ -87,8 +86,7 @@
                     </ul>
                     <ul style="list-style: none;" class="navbar-nav ml-auto">  
                         <li class="nav-item ms-3">
-                            <a id="botonCarrito" data-bs-toggle="modal" data-bs-target="#idModalCarrito" class="btn btn-secondary"><i class="fas fa-shopping-cart fa-1x"></i><span id="carritoCantidad"></span></a>
-                            <!-- <a id="botonCarrito" data-bs-toggle="modal" data-bs-target="#idModalCarrito" class="btn"><i class="fas fa-shopping-cart fa-1x"></i> Carrito <span id="carritoCantidad"></span></a> -->                            
+                            <a id="botonCarrito" data-bs-toggle="modal" data-bs-target="#idModalCarrito" class="btn btn-secondary"><i class="fas fa-shopping-cart fa-1x"></i><span id="carritoCantidad"></span></a>                            
                         </li>
                     </ul>                    
                 </div>
@@ -100,11 +98,12 @@
         <section>
             <div class="container mt-5">
                 <div class="d-flex justify-content-between align-items-center"> <!-- Utilizar justify-content-between -->
-                    <input type="text" class="form-control responsive-input" placeholder="Buscar producto por nombre o descripción">
-                    <select class="form-select" style="width: 200px;"> <!-- Ancho específico -->
-                        <option value="">Order por:</option>
-                        <option value="">Ordenar por Nombre</option>
-                        <option value="">Ordenar por Precio</option>
+                    <input id="buscador" type="text" class="form-control responsive-input" placeholder="Buscar producto">
+                    <select id="selectOrden" class="form-select" style="width: 200px;"> <!-- Ancho específico -->
+                        <option selected>Order por:</option>
+                        <option value="1">Precio DESC</option>
+                        <option value="2">Precio ASC</option>
+                        <option value="3">Alfabeticamente</option>
                     </select>
                 </div>
             </div>
@@ -115,20 +114,16 @@
                     <!-- Aquí se generarán los productos -->
                 </div>
             </div>
-
-            <!-- <div class="container text-center mt-5">
-                <button id="finalizarCompraBtn" class="btn btn-primary">Finalizar Compra</button>
-            </div> -->
+            
             <div class="container text-center mt-5 mb-5">
-                <div class="d-flex justify-content-center align-items-center flex-wrap">
-                    <!-- <button id="masOpcionesBtn" class="btn btn-primary btn-lg mx-3 my-2">Mas Opciones</button> -->
+                <div class="d-flex justify-content-center align-items-center flex-wrap">                    
                     <button id="finalizarCompraBtn" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#idModalCarrito">Finalizar Compra</button>
                 </div>
             </div>
         </section>
     </div>
     
-    <!--Modal Suplemento-->
+    <!--MODAL AGREGAR SUPLEMENTO-->
     <div class="modal fade" id="idModalAgregarSuplemento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -137,7 +132,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="modal-body">
-                    <!--Formulario-->
+                    <!--FORMULARIO-->
                     <form id="formCargarSuplemento" class="my-4">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label> 
@@ -161,7 +156,7 @@
         </div>
     </div>
     
-    <!--Modal Carrito-->
+    <!-- MODAL CARRITO -->
     <div class="modal fade" id="idModalCarrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -182,7 +177,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- MODAL PARA INICIAR SESIÓN ADMIN-->
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -210,6 +205,7 @@
         </div>
     </div>
     
+    <!-- CODIGO DEL FOOTER -->
     <div>
         <footer class="bg-dark text-white">
             <div class="container py-4">
@@ -243,6 +239,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/miarchivo.js"></script>
+    <script src="../js/miarchivo_v2.js"></script>
 </body>
 </html>
