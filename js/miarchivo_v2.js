@@ -51,6 +51,9 @@ let productGrid = document.getElementById('productGrid');
 let selectOrden = document.getElementById("selectOrden");
 let buscador = document.getElementById("buscador");
 let coincidenciasDiv = document.getElementById("coincidenciasDiv");
+let precioTotal = document.getElementById("precioTotal");
+let botonCarrito = document.getElementById("botonCarrito");
+let modalBodyCarrito = document.getElementById("modal-bodyCarrito");
 
 //FUNCIONES
 const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
@@ -155,7 +158,60 @@ function addToCart(index) {
         // Llamar a la función para actualizar el botón de carrito
         actualizarBotonCarrito();
     }
-  }
+}
+
+function cargarProductosCarrito(array) {
+    modalBodyCarrito.innerHTML = "";
+
+    if (array.length === 0) {
+        modalBodyCarrito.innerHTML = `<p>No hay productos en el carrito</p>`;
+    } else {
+        array.forEach((item, index) => {
+            const productoCarrito = item.product;
+            const cantidad = item.quantity;
+
+            modalBodyCarrito.innerHTML += `
+                <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.title}" style="max-width: 540px;">
+                    <img class="card-img-top" height="300px" src="${productoCarrito.image}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">${productoCarrito.title}</h4>
+                        <p class="card-text">${productoCarrito.description}</p>
+                        <p class="card-text">Cantidad: ${cantidad}</p>
+                        <p class="card-text">$${(productoCarrito.price * cantidad).toFixed(2)}</p>
+                        <button class="btn btn-danger" id="botonEliminar${productoCarrito.title}" onclick="eliminarDelCarrito(${index})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        calcularTotal(array);
+    }
+}
+
+function calcularTotal(array) {
+    // Inicializar la suma total a 0
+    let total = 0;
+
+    // Iterar sobre los elementos del carrito
+    for (const item of array) {
+        const producto = item.product;
+        const cantidad = item.quantity;
+
+        // Sumar al total el precio del producto multiplicado por la cantidad
+        total += producto.price * cantidad;
+    }
+
+    if (total > 0) {
+        // Si hay productos en el carrito, mostrar el total
+        precioTotal.innerHTML = `<strong>El total de su compra es: $${total.toFixed(2)}</strong>`;
+    } else {
+        // Si no hay productos en el carrito, mostrar un mensaje
+        precioTotal.innerHTML = `No hay productos en el carrito`;
+    }
+}
+
 
 //FUNCIONES AUXILIARES
 //Funcion para decrementar las cantidades de unidades a agregar al carrito
@@ -236,6 +292,10 @@ selectOrden.addEventListener("change", () => {
 
 buscador.addEventListener("input", () => {
     buscarInfo(buscador.value,catalogoDeProductos)
+})
+
+botonCarrito.addEventListener("click", () => {
+    cargarProductosCarrito(cart)
 })
 
 // Esperar a que el documento esté completamente cargado
