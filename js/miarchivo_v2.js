@@ -80,6 +80,7 @@ let precioTotal = document.getElementById("precioTotal");
 let botonCarrito = document.getElementById("botonCarrito");
 let botonFinalizarCompra = document.getElementById("finalizarCompraBtn");
 let modalBodyCarrito = document.getElementById("modal-bodyCarrito");
+let botonFinalizarCompraModal = document.getElementById("botonFinalizarCompra");
 
 //FUNCIONES
 const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
@@ -320,11 +321,12 @@ function actualizarBotonCarrito() {
         // Si hay productos en el carrito, establecer la clase a "btn-danger"
         botonCarrito.classList.remove('btn-secondary');
         botonCarrito.classList.add('btn-danger');
-        carritoCantidad.textContent = ' ' + totalCantidad.toString();;
+        carritoCantidad.textContent = ' ' + totalCantidad.toString();
     } else {
         // Si no hay productos en el carrito, establecer la clase a "btn-secondary"
         botonCarrito.classList.remove('btn-danger');
         botonCarrito.classList.add('btn-secondary');
+        carritoCantidad.textContent = '';
     }
 
     // Actualizar la cantidad de productos en el carrito    
@@ -364,6 +366,23 @@ botonFinalizarCompra.addEventListener("click", () => {
 // Esperar a que el documento esté completamente cargado
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("btnIniciarSesion").addEventListener("click", iniciarSesion);
+});
+
+// Agrega un evento click al botón "Finalizar Compra"
+botonFinalizarCompraModal.addEventListener("click", () => {
+    // Elimina el carrito del almacenamiento local
+    localStorage.removeItem("carrito");
+    
+    // Reinicia el array "cart" como un array vacío
+    cart = [];
+
+    // Actualiza el botón del carrito y la cantidad mostrada
+    actualizarBotonCarrito();
+
+    // Limpia y actualiza la vista del carrito en el modal
+    cargarProductosCarrito(cart);
+
+    precioTotal.innerHTML = ``;
 });
 
 //CÓDIGO
