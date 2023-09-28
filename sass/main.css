@@ -262,10 +262,11 @@ p {
   text-align: center; /* Centra el contenido de manera horizontal dentro de los elementos */
 }
 
-@media (max-width: 768px) {
-  .header .logo-img,
-  .header .logo-letters {
-    max-width: 80%;
+/* Añade estas reglas CSS para cambiar el diseño de la barra de navegación en dispositivos móviles */
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: row; /* Cambia la dirección a columna en dispositivos móviles */
+    align-items: center; /* Centra los elementos verticalmente */
   }
 }
 footer {
