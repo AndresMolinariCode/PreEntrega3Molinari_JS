@@ -49,6 +49,27 @@ if(localStorage.getItem("catalogoDeProductos")){
    localStorage.setItem("catalogoDeProductos", JSON.stringify(catalogoDeProductos))
 }
 
+//VERIFICACION DE EXISTENCIA DEL CARRITO DE COMPRAS EN EL LOCALSTORAGE
+if (localStorage.getItem("carrito")) {
+    // Si existe, cargar los elementos en el array "cart"
+    const cartData = JSON.parse(localStorage.getItem("carrito"));
+    cart = cartData.map(cartItem => {
+        const productData = cartItem.product;
+        const product = new Producto(
+            productData.id,
+            productData.image,
+            productData.title,
+            productData.description,
+            productData.price
+        );
+        return {
+            product,
+            quantity: cartItem.quantity
+        };
+    });
+}
+
+
 //SE SETA POR PRIMERA VEZ EL ARRAY DE productosCarrito 
 //let productosCarrito = JSON.parse(localStorage.getItem("carrito")) ?? []
 let productGrid = document.getElementById('productGrid');
@@ -150,18 +171,22 @@ function buscarInfo(buscado,array){
     coincidencias.length > 0 ? (mostrarCatalogoDOM(coincidencias), coincidenciasDiv.innerHTML ="") : (mostrarCatalogoDOM(array), coincidenciasDiv.innerHTML = `<h3>No hay coincidencias con su búsqueda, este es nuestro catálogo completo</h3>`);
 }
 
-// function addToCart(index) {
-//     const quantity = parseInt(document.getElementById(`quantity${index}`).value);
+// function addToCart(productId) {
+//     const quantity = parseInt(document.getElementById(`quantity${productId}`).value);
 //     if (quantity > 0) {
-//         cart.push({
-//             product: catalogoDeProductos[index],
-//             quantity
-//         });
-//         //alert(`Se agregó ${quantity} ${products[index].title}(s) al carrito`);
-//         document.getElementById(`quantity${index}`).value = 1;
-  
-//         // Llamar a la función para actualizar el botón de carrito
-//         actualizarBotonCarrito();
+//         const productToAdd = catalogoDeProductos.find(product => product.id === productId);
+//         if (productToAdd) {
+//             cart.push({
+//                 product: productToAdd,
+//                 quantity
+//             });
+//             localStorage.setItem("carrito", JSON.stringify(cart)),
+
+//             document.getElementById(`quantity${productId}`).value = 1;
+
+//             // Llama a la función para actualizar el botón de carrito
+//             actualizarBotonCarrito();
+//         }
 //     }
 // }
 
@@ -170,10 +195,20 @@ function addToCart(productId) {
     if (quantity > 0) {
         const productToAdd = catalogoDeProductos.find(product => product.id === productId);
         if (productToAdd) {
-            cart.push({
-                product: productToAdd,
-                quantity
-            });
+            // Verificar si el producto ya está en el carrito
+            const existingCartItem = cart.find(item => item.product.id === productId);
+            if (existingCartItem) {
+                // Si el producto ya existe, aumentar la cantidad
+                existingCartItem.quantity += quantity;
+            } else {
+                // Si el producto no existe en el carrito, agregarlo
+                cart.push({
+                    product: productToAdd,
+                    quantity
+                });
+            }
+            localStorage.setItem("carrito", JSON.stringify(cart));
+
             document.getElementById(`quantity${productId}`).value = 1;
 
             // Llama a la función para actualizar el botón de carrito
@@ -182,36 +217,7 @@ function addToCart(productId) {
     }
 }
 
-// function cargarProductosCarrito(array) {
-//     modalBodyCarrito.innerHTML = "";
-
-//     if (array.length === 0) {
-//         modalBodyCarrito.innerHTML = `<p>No hay productos en el carrito</p>`;
-//     } else {
-//         array.forEach((item, index) => {
-//             const productoCarrito = item.product;
-//             const cantidad = item.quantity;
-
-//             modalBodyCarrito.innerHTML += `
-//                 <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.title}" style="max-width: 540px;">
-//                     <img class="card-img-top" height="300px" src="${productoCarrito.image}" alt="">
-//                     <div class="card-body">
-//                         <h4 class="card-title">${productoCarrito.title}</h4>
-//                         <p class="card-text">${productoCarrito.description}</p>
-//                         <p class="card-text">Cantidad: ${cantidad}</p>
-//                         <p class="card-text">$${(productoCarrito.price * cantidad).toFixed(2)}</p>
-//                         <button class="btn btn-danger" id="botonEliminar${productoCarrito.title}" onclick="eliminarDelCarrito(${index})">
-//                             <i class="fas fa-trash-alt"></i>
-//                         </button>
-//                     </div>
-//                 </div>
-//             `;
-//         });
-
-//         calcularTotal(array);
-//     }
-// }
-
+//<p class="card-text">${productoCarrito.description}</p>
 function cargarProductosCarrito(array) {
     modalBodyCarrito.innerHTML = "";
 
@@ -227,7 +233,7 @@ function cargarProductosCarrito(array) {
                     <img class="card-img-top" max-width="100px" max-height="150px" src="${productoCarrito.image}" alt="">
                     <div class="card-body">
                         <h4 class="card-title">${productoCarrito.title}</h4>
-                        <p class="card-text">${productoCarrito.description}</p>
+                        
                         <p class="card-text">Cantidad: ${cantidad}</p>
                         <p class="card-text">$${(productoCarrito.price * cantidad).toFixed(2)}</p>
                         <button class="btn btn-danger" id="botonEliminar${productoCarrito.title}" onclick="eliminarDelCarrito(${productoCarrito.id})">
@@ -241,28 +247,6 @@ function cargarProductosCarrito(array) {
         calcularTotal(array);
     }
 }
-
-// function calcularTotal(array) {
-//     // Inicializar la suma total a 0
-//     let total = 0;
-
-//     // Iterar sobre los elementos del carrito
-//     for (const item of array) {
-//         const producto = item.product;
-//         const cantidad = item.quantity;
-
-//         // Sumar al total el precio del producto multiplicado por la cantidad
-//         total += producto.price * cantidad;
-//     }
-
-//     if (total > 0) {
-//         // Si hay productos en el carrito, mostrar el total
-//         precioTotal.innerHTML = `<strong>El total de su compra es: $${total.toFixed(2)}</strong>`;
-//     } else {
-//         // Si no hay productos en el carrito, mostrar un mensaje
-//         precioTotal.innerHTML = `No hay productos en el carrito`;
-//     }
-// }
 
 function calcularTotal(array) {
     // Inicializar la suma total a 0
@@ -285,7 +269,6 @@ function calcularTotal(array) {
         precioTotal.innerHTML = `No hay productos en el carrito`;
     }
 }
-
 
 //FUNCIONES AUXILIARES
 //Funcion para decrementar las cantidades de unidades a agregar al carrito
@@ -385,3 +368,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //CÓDIGO
 mostrarCatalogoDOM(catalogoDeProductos);
+actualizarBotonCarrito();

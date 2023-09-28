@@ -262,6 +262,12 @@ p {
   text-align: center; /* Centra el contenido de manera horizontal dentro de los elementos */
 }
 
+@media (max-width: 768px) {
+  .header .logo-img,
+  .header .logo-letters {
+    max-width: 80%;
+  }
+}
 footer {
   margin-bottom: 0;
 }/*# sourceMappingURL=main.css.map */
