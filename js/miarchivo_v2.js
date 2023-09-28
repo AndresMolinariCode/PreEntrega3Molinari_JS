@@ -172,25 +172,6 @@ function buscarInfo(buscado,array){
     coincidencias.length > 0 ? (mostrarCatalogoDOM(coincidencias), coincidenciasDiv.innerHTML ="") : (mostrarCatalogoDOM(array), coincidenciasDiv.innerHTML = `<h3>No hay coincidencias con su búsqueda, este es nuestro catálogo completo</h3>`);
 }
 
-// function addToCart(productId) {
-//     const quantity = parseInt(document.getElementById(`quantity${productId}`).value);
-//     if (quantity > 0) {
-//         const productToAdd = catalogoDeProductos.find(product => product.id === productId);
-//         if (productToAdd) {
-//             cart.push({
-//                 product: productToAdd,
-//                 quantity
-//             });
-//             localStorage.setItem("carrito", JSON.stringify(cart)),
-
-//             document.getElementById(`quantity${productId}`).value = 1;
-
-//             // Llama a la función para actualizar el botón de carrito
-//             actualizarBotonCarrito();
-//         }
-//     }
-// }
-
 function addToCart(productId) {
     const quantity = parseInt(document.getElementById(`quantity${productId}`).value);
     if (quantity > 0) {
@@ -230,14 +211,14 @@ function cargarProductosCarrito(array) {
             const cantidad = item.quantity;
 
             modalBodyCarrito.innerHTML += `
-                <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.title}" style="max-width: 540px;">
+                <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.id}" style="max-width: 540px;">
                     <img class="card-img-top" max-width="100px" max-height="150px" src="${productoCarrito.image}" alt="">
                     <div class="card-body">
                         <h4 class="card-title">${productoCarrito.title}</h4>
                         
                         <p class="card-text">Cantidad: ${cantidad}</p>
                         <p class="card-text">$${(productoCarrito.price * cantidad).toFixed(2)}</p>
-                        <button class="btn btn-danger" id="botonEliminar${productoCarrito.title}" onclick="eliminarDelCarrito(${productoCarrito.id})">
+                        <button class="btn btn-danger" id="botonEliminar${productoCarrito.id}" onclick="eliminarDelCarrito(${productoCarrito.id})">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
@@ -265,9 +246,33 @@ function calcularTotal(array) {
     if (total > 0) {
         // Si hay productos en el carrito, mostrar el total
         precioTotal.innerHTML = `<strong>El total de su compra es: $${total.toFixed(2)}</strong>`;
-    } else {
+    } 
+    else {
         // Si no hay productos en el carrito, mostrar un mensaje
-        precioTotal.innerHTML = `No hay productos en el carrito`;
+        precioTotal.innerHTML = ``;
+    }
+    // else {
+    //     // Si no hay productos en el carrito, mostrar un mensaje
+    //     precioTotal.innerHTML = `No hay productos en el carrito`;
+    // }
+}
+
+function eliminarDelCarrito(productId) {
+    // Encuentra el índice del producto en el carrito
+    const index = cart.findIndex(item => item.product.id === productId);
+
+    if (index !== -1) {
+        // Elimina el producto del carrito
+        cart.splice(index, 1);
+        localStorage.setItem("carrito", JSON.stringify(cart));
+
+        // Recarga la vista del carrito
+        cargarProductosCarrito(cart);
+
+        calcularTotal(cart);
+
+        // Actualiza el botón del carrito y la cantidad mostrada
+        actualizarBotonCarrito();        
     }
 }
 
