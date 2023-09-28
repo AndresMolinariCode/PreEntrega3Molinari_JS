@@ -197,6 +197,8 @@ function addToCart(productId) {
             actualizarBotonCarrito();
         }
     }
+
+    cargarProductosCarrito(catalogoDeProductos);
 }
 
 //<p class="card-text">${productoCarrito.description}</p>
