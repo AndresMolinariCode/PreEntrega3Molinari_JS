@@ -1,6 +1,7 @@
 //CONSTRUCTOR DE CLASE
 class Producto {
-    constructor(image ,title, description, price) {
+    constructor(id,image ,title, description, price) {
+        this.id = id;
         this.image = image;
         this.title = title;
         this.description = description;
@@ -14,17 +15,20 @@ class Producto {
 }
 
 //INSTACIACION DE LOS ARTÍCULOS DEL CATÁLOGO DE PROTEÍNAS
-const prote1 = new Producto('../img/Suplementos/WheyProtein/WheyProtein_1-removebg-preview.png',
+const prote1 = new Producto(1,
+                            '../img/Suplementos/WheyProtein/WheyProtein_1-removebg-preview.png',
                             'Iridium Whey Concentrado',
                             'El concentrado es la proteína ideal para el día a día. De alto valor biológico, es el complemento más importante para quienes buscan aumentar la fuerza y ​​ganar masa muscular.',
                             19.99);
 
-const prote2 = new Producto('../img/Suplementos/WheyProtein/WheyProtein_2-removebg-preview.png',
+const prote2 = new Producto(2,
+                            '../img/Suplementos/WheyProtein/WheyProtein_2-removebg-preview.png',
                             'Universal Ultra Whey Pro',
                             'Sirve para aumentar tu masa muscular. Para crecer es necesario entrenar con sobrecarga, levantar pesas, de esa manera las fibras musculares se dañan durante el entrenamiento y al reestructurase durante el descanso aumentan su tamaño.',
                             24.99);
 
-const prote3 = new Producto('../img/Suplementos/WheyProtein/WheyProtein_3-removebg-preview.png',
+const prote3 = new Producto(3,
+                            '../img/Suplementos/WheyProtein/WheyProtein_3-removebg-preview.png',
                             'Integralmedica Whey Protein',
                             'Promueve el aumento de masa muscular a través del incremento de síntesis proteica. Mantiene balance positivo de nitrógeno, evitando la degradación de músculo.',
                             29.99);
@@ -35,7 +39,7 @@ let catalogoDeProductos = []
 if(localStorage.getItem("catalogoDeProductos")){
     //hacer for of de catalogoDeProductos y pasarle new Producto
     for(let producto of JSON.parse(localStorage.getItem("catalogoDeProductos"))){
-        let productoStorage = new Producto (producto.image,producto.title,producto.description,producto.price)
+        let productoStorage = new Producto (producto.id,producto.image,producto.title,producto.description,producto.price)
         catalogoDeProductos.push(productoStorage)
     }
 
@@ -53,6 +57,7 @@ let buscador = document.getElementById("buscador");
 let coincidenciasDiv = document.getElementById("coincidenciasDiv");
 let precioTotal = document.getElementById("precioTotal");
 let botonCarrito = document.getElementById("botonCarrito");
+let botonFinalizarCompra = document.getElementById("finalizarCompraBtn");
 let modalBodyCarrito = document.getElementById("modal-bodyCarrito");
 
 //FUNCIONES
@@ -63,7 +68,7 @@ function mostrarCatalogoDOM(array){
     productGrid.innerHTML = "";
 
     if(array.length > 0){
-        array.forEach((product, index) => {
+        array.forEach((product) => {
             const productCard = document.createElement('div');
             productCard.className = 'col-md-4 mb-4';
         
@@ -81,13 +86,13 @@ function mostrarCatalogoDOM(array){
                     <p class="card-text">$${product.price.toFixed(2)}</p>
                     <div class="input-group mb-3">
                         <span class="input-group-text">
-                            <button type="button" class="btn btn-sm" onclick="decreaseQuantity(${index})">-</button>
+                            <button type="button" class="btn btn-sm" onclick="decreaseQuantity(${product.id})">-</button>
                         </span>
-                        <input type="number" class="form-control" value="1" min="1" id="quantity${index}">
+                        <input type="number" class="form-control" value="1" min="1" id="quantity${product.id}">
                         <span class="input-group-text">
-                            <button type="button" class="btn btn-sm" onclick="increaseQuantity(${index})">+</button>
+                            <button type="button" class="btn btn-sm" onclick="increaseQuantity(${product.id})">+</button>
                         </span>
-                        <button class="btn btn-warning" onclick="addToCart(${index})">Agregar</button>
+                        <button class="btn btn-warning" onclick="addToCart(${product.id})">Agregar</button>
                     </div>
                 </div>
             </div>
@@ -145,20 +150,67 @@ function buscarInfo(buscado,array){
     coincidencias.length > 0 ? (mostrarCatalogoDOM(coincidencias), coincidenciasDiv.innerHTML ="") : (mostrarCatalogoDOM(array), coincidenciasDiv.innerHTML = `<h3>No hay coincidencias con su búsqueda, este es nuestro catálogo completo</h3>`);
 }
 
-function addToCart(index) {
-    const quantity = parseInt(document.getElementById(`quantity${index}`).value);
-    if (quantity > 0) {
-        cart.push({
-            product: catalogoDeProductos[index],
-            quantity
-        });
-        //alert(`Se agregó ${quantity} ${products[index].title}(s) al carrito`);
-        document.getElementById(`quantity${index}`).value = 1;
+// function addToCart(index) {
+//     const quantity = parseInt(document.getElementById(`quantity${index}`).value);
+//     if (quantity > 0) {
+//         cart.push({
+//             product: catalogoDeProductos[index],
+//             quantity
+//         });
+//         //alert(`Se agregó ${quantity} ${products[index].title}(s) al carrito`);
+//         document.getElementById(`quantity${index}`).value = 1;
   
-        // Llamar a la función para actualizar el botón de carrito
-        actualizarBotonCarrito();
+//         // Llamar a la función para actualizar el botón de carrito
+//         actualizarBotonCarrito();
+//     }
+// }
+
+function addToCart(productId) {
+    const quantity = parseInt(document.getElementById(`quantity${productId}`).value);
+    if (quantity > 0) {
+        const productToAdd = catalogoDeProductos.find(product => product.id === productId);
+        if (productToAdd) {
+            cart.push({
+                product: productToAdd,
+                quantity
+            });
+            document.getElementById(`quantity${productId}`).value = 1;
+
+            // Llama a la función para actualizar el botón de carrito
+            actualizarBotonCarrito();
+        }
     }
 }
+
+// function cargarProductosCarrito(array) {
+//     modalBodyCarrito.innerHTML = "";
+
+//     if (array.length === 0) {
+//         modalBodyCarrito.innerHTML = `<p>No hay productos en el carrito</p>`;
+//     } else {
+//         array.forEach((item, index) => {
+//             const productoCarrito = item.product;
+//             const cantidad = item.quantity;
+
+//             modalBodyCarrito.innerHTML += `
+//                 <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.title}" style="max-width: 540px;">
+//                     <img class="card-img-top" height="300px" src="${productoCarrito.image}" alt="">
+//                     <div class="card-body">
+//                         <h4 class="card-title">${productoCarrito.title}</h4>
+//                         <p class="card-text">${productoCarrito.description}</p>
+//                         <p class="card-text">Cantidad: ${cantidad}</p>
+//                         <p class="card-text">$${(productoCarrito.price * cantidad).toFixed(2)}</p>
+//                         <button class="btn btn-danger" id="botonEliminar${productoCarrito.title}" onclick="eliminarDelCarrito(${index})">
+//                             <i class="fas fa-trash-alt"></i>
+//                         </button>
+//                     </div>
+//                 </div>
+//             `;
+//         });
+
+//         calcularTotal(array);
+//     }
+// }
 
 function cargarProductosCarrito(array) {
     modalBodyCarrito.innerHTML = "";
@@ -166,29 +218,51 @@ function cargarProductosCarrito(array) {
     if (array.length === 0) {
         modalBodyCarrito.innerHTML = `<p>No hay productos en el carrito</p>`;
     } else {
-        array.forEach((item, index) => {
+        array.forEach((item) => {
             const productoCarrito = item.product;
             const cantidad = item.quantity;
 
             modalBodyCarrito.innerHTML += `
                 <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.title}" style="max-width: 540px;">
-                    <img class="card-img-top" height="300px" src="${productoCarrito.image}" alt="">
+                    <img class="card-img-top" max-width="100px" max-height="150px" src="${productoCarrito.image}" alt="">
                     <div class="card-body">
                         <h4 class="card-title">${productoCarrito.title}</h4>
                         <p class="card-text">${productoCarrito.description}</p>
                         <p class="card-text">Cantidad: ${cantidad}</p>
                         <p class="card-text">$${(productoCarrito.price * cantidad).toFixed(2)}</p>
-                        <button class="btn btn-danger" id="botonEliminar${productoCarrito.title}" onclick="eliminarDelCarrito(${index})">
+                        <button class="btn btn-danger" id="botonEliminar${productoCarrito.title}" onclick="eliminarDelCarrito(${productoCarrito.id})">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
                 </div>
             `;
         });
-
+         
         calcularTotal(array);
     }
 }
+
+// function calcularTotal(array) {
+//     // Inicializar la suma total a 0
+//     let total = 0;
+
+//     // Iterar sobre los elementos del carrito
+//     for (const item of array) {
+//         const producto = item.product;
+//         const cantidad = item.quantity;
+
+//         // Sumar al total el precio del producto multiplicado por la cantidad
+//         total += producto.price * cantidad;
+//     }
+
+//     if (total > 0) {
+//         // Si hay productos en el carrito, mostrar el total
+//         precioTotal.innerHTML = `<strong>El total de su compra es: $${total.toFixed(2)}</strong>`;
+//     } else {
+//         // Si no hay productos en el carrito, mostrar un mensaje
+//         precioTotal.innerHTML = `No hay productos en el carrito`;
+//     }
+// }
 
 function calcularTotal(array) {
     // Inicializar la suma total a 0
@@ -215,17 +289,19 @@ function calcularTotal(array) {
 
 //FUNCIONES AUXILIARES
 //Funcion para decrementar las cantidades de unidades a agregar al carrito
-function decreaseQuantity(index) {
-    const quantityInput = document.getElementById(`quantity${index}`);
+function decreaseQuantity(productId) {
+    const quantityInput = document.getElementById(`quantity${productId}`);
     if (quantityInput.value > 1) {
         quantityInput.value = parseInt(quantityInput.value) - 1;
     }
 }
+
 //Funcion para aumentar las cantidades de unidades a agregar al carrito
-function increaseQuantity(index) {
-    const quantityInput = document.getElementById(`quantity${index}`);
+function increaseQuantity(productId) {
+    const quantityInput = document.getElementById(`quantity${productId}`);
     quantityInput.value = parseInt(quantityInput.value) + 1;
 }
+
 
 function iniciarSesion() {
     // Obtener los valores de usuario y contraseña ingresados
@@ -295,6 +371,10 @@ buscador.addEventListener("input", () => {
 })
 
 botonCarrito.addEventListener("click", () => {
+    cargarProductosCarrito(cart)
+})
+
+botonFinalizarCompra.addEventListener("click", () => {
     cargarProductosCarrito(cart)
 })
 
