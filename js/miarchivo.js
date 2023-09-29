@@ -1,95 +1,8 @@
-//CODIGO PARA MOSTRAR GRILLA DE PRODUCTOS Y AGREGAR PRODUCTOS AL CARRO
-//---------------------------------------->INICIO<----------------------------------------
-//Uso de constantes
-const products = [
-  // Aquí se agregan los productos a ser listados  
-  {
-      image: '../img/Suplementos/WheyProtein/WheyProtein_1-removebg-preview.png',
-      title: 'Iridium Whey Concentrado',
-      description: 'El concentrado es la proteína ideal para el día a día. De alto valor biológico, es el complemento más importante para quienes buscan aumentar la fuerza y ​​ganar masa muscular.',
-      price: 19.99
-  },
-  {
-      image: '../img/Suplementos/WheyProtein/WheyProtein_2-removebg-preview.png',
-      title: 'Universal Ultra Whey Pro',
-      description: 'Sirve para aumentar tu masa muscular. Para crecer es necesario entrenar con sobrecarga, levantar pesas, de esa manera las fibras musculares se dañan durante el entrenamiento y al reestructurase durante el descanso aumentan su tamaño.',
-      price: 24.99
-  },
-  {
-      image: '../img/Suplementos/WheyProtein/WheyProtein_3-removebg-preview.png',
-      title: 'Integralmedica Whey Protein',
-      description: 'Promueve el aumento de masa muscular a través del incremento de síntesis proteica. Mantiene balance positivo de nitrógeno, evitando la degradación de músculo.',
-      price: 29.99
-  },  
-];
-
-const productGrid = document.getElementById('productGrid');
-
-const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
-
-products.forEach((product, index) => {
-    const productCard = document.createElement('div');
-    productCard.className = 'col-md-4 mb-4';
-
-    // Limitar la descripción a un número máximo de caracteres
-    const truncatedDescription = product.description.length > maxDescriptionLength
-        ? product.description.slice(0, maxDescriptionLength) + '...'
-        : product.description;
-
-    productCard.innerHTML = `
-    <div class="card">
-        <img src="${product.image}" class="card-img-top product-image mx-auto" alt="${product.title}">
-        <div class="card-body text-center">
-            <h5 class="card-title">${product.title}</h5>
-            <p class="card-text">${truncatedDescription}</p>
-            <p class="card-text">$${product.price.toFixed(2)}</p>
-            <div class="input-group mb-3">
-                <span class="input-group-text">
-                    <button type="button" class="btn btn-sm" onclick="decreaseQuantity(${index})">-</button>
-                </span>
-                <input type="number" class="form-control" value="1" min="1" id="quantity${index}">
-                <span class="input-group-text">
-                    <button type="button" class="btn btn-sm" onclick="increaseQuantity(${index})">+</button>
-                </span>
-                <button class="btn btn-warning" onclick="addToCart(${index})">Agregar</button>
-            </div>
-        </div>
-    </div>
-    `;
-
-    // Establecer atributos de alto y ancho máximo a la imagen
-    const imageElement = productCard.querySelector('.product-image');
-    imageElement.setAttribute('style', 'max-width: 300px; max-height: 350px;');
-
-    productGrid.appendChild(productCard);
-});
-
-const cart = [];
-
-//Uso de funciones
-function addToCart(index) {
-  const quantity = parseInt(document.getElementById(`quantity${index}`).value);
-  if (quantity > 0) {
-      cart.push({
-          product: products[index],
-          quantity
-      });
-      alert(`Se agregó ${quantity} ${products[index].title}(s) al carrito`);
-      document.getElementById(`quantity${index}`).value = 1;
-
-      // Llamar a la función para actualizar el botón de carrito
-      actualizarBotonCarrito();
-  }
-}
-
-//---------------------------------------->FIN<----------------------------------------
-
-//CODIGO PARA CUMPLIMIENTO DE REQUISITOS DE PRE ENTREGA
-//INICIO CODIGO PARA CUMPLIMIENTO DE REQUISITOS DE PRE ENTREGA
-
-//-->CREACION DE CLASES<--
+//CONSTRUCTOR DE CLASE
 class Producto {
-    constructor(title, description, price) {
+    constructor(id,image ,title, description, price) {
+        this.id = id;
+        this.image = image;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -101,373 +14,313 @@ class Producto {
     }
 }
 
-//-->CREACION DE VARIABLES<--
-// Llamar a la función cargarCatalogo para obtener el catálogo de productos
-const catalogoDeProductos = cargarCatalogo();
+//INSTACIACION DE LOS ARTÍCULOS DEL CATÁLOGO DE PROTEÍNAS
+const prote1 = new Producto(1,
+                            '../img/Suplementos/WheyProtein/WheyProtein_1-removebg-preview.png',
+                            'Iridium Whey Concentrado',
+                            'El concentrado es la proteína ideal para el día a día. De alto valor biológico, es el complemento más importante para quienes buscan aumentar la fuerza y ​​ganar masa muscular.',
+                            19.99);
 
-//-->CREACION DE FUNCIONES<--
-// Definir la función cargarCatalogo
-function cargarCatalogo() {
-    const catalogo = [];
+const prote2 = new Producto(2,
+                            '../img/Suplementos/WheyProtein/WheyProtein_2-removebg-preview.png',
+                            'Universal Ultra Whey Pro',
+                            'Sirve para aumentar tu masa muscular. Para crecer es necesario entrenar con sobrecarga, levantar pesas, de esa manera las fibras musculares se dañan durante el entrenamiento y al reestructurase durante el descanso aumentan su tamaño.',
+                            24.99);
 
-    // Recorrer el arreglo products y crear instancias de Producto
-    products.forEach((product) => {
-        const producto = new Producto(
-            product.title,
-            product.description,
-            product.price
+const prote3 = new Producto(3,
+                            '../img/Suplementos/WheyProtein/WheyProtein_3-removebg-preview.png',
+                            'Integralmedica Whey Protein',
+                            'Promueve el aumento de masa muscular a través del incremento de síntesis proteica. Mantiene balance positivo de nitrógeno, evitando la degradación de músculo.',
+                            29.99);
+
+//VERIFICACION DE EXISTENCIA DEL CATALOGO DE PROTEINAS EN EL LOCALSTORAGE
+let cart = [];
+let catalogoDeProductos = []
+if(localStorage.getItem("catalogoDeProductos")){
+    //hacer for of de catalogoDeProductos y pasarle new Producto
+    for(let producto of JSON.parse(localStorage.getItem("catalogoDeProductos"))){
+        let productoStorage = new Producto (producto.id,producto.image,producto.title,producto.description,producto.price)
+        catalogoDeProductos.push(productoStorage)
+    }
+
+}else{
+   //no existe catalogoDeProductos, por lo que se setea por primera vez
+   catalogoDeProductos.push(prote1,prote2,prote3);
+   localStorage.setItem("catalogoDeProductos", JSON.stringify(catalogoDeProductos))
+}
+
+//VERIFICACION DE EXISTENCIA DEL CARRITO DE COMPRAS EN EL LOCALSTORAGE
+if (localStorage.getItem("carrito")) {
+    // Si existe, cargar los elementos en el array "cart"
+    const cartData = JSON.parse(localStorage.getItem("carrito"));
+    cart = cartData.map(cartItem => {
+        const productData = cartItem.product;
+        const product = new Producto(
+            productData.id,
+            productData.image,
+            productData.title,
+            productData.description,
+            productData.price
         );
-        catalogo.push(producto);
+        return {
+            product,
+            quantity: cartItem.quantity
+        };
     });
-
-    return catalogo;
 }
 
-function finalizarCompra() {
-    ////-->USO DE FUNCIONES DECLARADAS POSTERIORMENTE <--
-    const totalCompra = calcularTotalCompra();
 
-    //-->USO DE CONDICIONALES<--
-    if (totalCompra <= 0) {
-        alert("El total de la compra debe ser mayor a cero. Agrega productos al carrito antes de finalizar la compra.");
-        return;
-    }
-    else{
-        ////-->USO DE FUNCIONES DECLARADAS POSTERIORMENTE <--
-        const nombreUsuario = pedirNombre();
+//SE SETA POR PRIMERA VEZ EL ARRAY DE productosCarrito 
+//let productosCarrito = JSON.parse(localStorage.getItem("carrito")) ?? []
+let productGrid = document.getElementById('productGrid');
+let selectOrden = document.getElementById("selectOrden");
+let buscador = document.getElementById("buscador");
+let coincidenciasDiv = document.getElementById("coincidenciasDiv");
+let precioTotal = document.getElementById("precioTotal");
+let botonCarrito = document.getElementById("botonCarrito");
+let botonFinalizarCompra = document.getElementById("finalizarCompraBtn");
+let modalBodyCarrito = document.getElementById("modal-bodyCarrito");
+let botonFinalizarCompraModal = document.getElementById("botonFinalizarCompra");
+let guardarSuplementoBtn = document.getElementById("guardarSuplementoBtn")
 
-        //-->USO DE CONDICIONALES<--
-        if (nombreUsuario !== null) {
-            alert(`Hola, ${nombreUsuario}! Vamos a finalizar la compra.`);
+//FUNCIONES
+const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
 
-            const medioPagoSeleccionado = solicitarMedioDePago();
+
+
+function mostrarCatalogoDOM(array){
+    //resetear el container
+    productGrid.innerHTML = "";
+
+    if(array.length > 0){
+        array.forEach((product) => {
+            const productCard = document.createElement('div');
+            productCard.className = 'col-md-4 mb-4';
         
-        if (medioPagoSeleccionado !== null) {
-            let mensaje = `Has seleccionado: ${medioPagoSeleccionado}`;
-
-            // Calcular el total de la compra si el pago es efectivo/débito
-            if (medioPagoSeleccionado === "Efectivo/Débito") {
-                const totalCompra = calcularTotalCompra();
-                mensaje += `\nTotal de la compra: $${totalCompra.toFixed(2)}`;
-            } else if (medioPagoSeleccionado.startsWith("Tarjeta de Crédito")) {
-                const cuotas = obtenerCantidadCuotas(medioPagoSeleccionado);                
-                const precioPorCuota = totalCompra / cuotas;
-                mensaje += `\nTotal de la compra: $${totalCompra.toFixed(2)}`;
-                mensaje += `\nCantidad de cuotas: ${cuotas}`;
-                mensaje += `\nPrecio por cuota: $${precioPorCuota.toFixed(2)}`;
-            }
-
-                alert(mensaje); 
-                alert('Compra finalizada con exito. Gracias por su preferencia!'); 
-                cart.length = 0;                   
-            }
-        } 
-    }        
-}
-
-//Solcita el nombre al cliente, se valida que no se vacio y que solo tenga letras
-function pedirNombre() {
-    let nombre = "";
-    let valido = false;
-
-    while (!valido) {
-        nombre = prompt("Por favor, ingresa tu nombre:");
-
-        if (nombre === null) {
-            // El usuario canceló la entrada
-            return null;
-        }
-
-        // Validar que el nombre no esté vacío y solo contenga letras
-        if (nombre.trim() === "") {
-            alert("El nombre no puede estar vacío. Por favor, ingresa tu nombre.");
-        } else if (!/^[A-Za-zÁ-ÿ\s]+$/.test(nombre)) {
-            alert("El nombre solo puede contener letras. Por favor, ingresa un nombre válido.");
-        } else {
-            valido = true;
-        }
-    }
-
-    return nombre;
-}
-
-//Funcioón que solicita el medio de pago para la compra
-function solicitarMedioDePago() {
-    let medioPago = "";
-    let valido = false;
-
-    while (!valido) {
-        medioPago = prompt("Selecciona el medio de pago:\n1 - Efectivo/Débito\n2 - Tarjeta de Crédito");
-
-        if (medioPago === null) {
-            // El usuario canceló la entrada
-            return null;
-        }
-
-        if (medioPago !== "1" && medioPago !== "2") {
-            alert("Opción no válida. Por favor, selecciona 1 para Efectivo/Débito o 2 para Tarjeta de Crédito.");
-        } else {
-            valido = true;
-        }
-    }
-
-    if (medioPago === "2") {
-        let cuotas = "";
-        valido = false;
-
-        while (!valido) {
-            cuotas = prompt("Selecciona la cantidad de cuotas:\n2, 4, 6 u 12");
-
-            if (cuotas === null) {
-                // El usuario canceló la entrada
-                return null;
-            }
-
-            if (cuotas !== "2" && cuotas !== "4" && cuotas !== "6" && cuotas !== "12") {
-                alert("Opción no válida. Por favor, selecciona 2, 4, 6 u 12 para la cantidad de cuotas.");
-            } else {
-                valido = true;
-            }
-        }
-
-        return `Tarjeta de Crédito (${cuotas} cuotas)`;
-    } else {
-        return "Efectivo/Débito";
-    }
-}
-
-// Función para calcular el total de la compra
-function calcularTotalCompra() {
-    let total = 0;
-    for (const item of cart) {
-        total += item.product.price * item.quantity;
-    }
-    return total;
-}
-
-// Función para obtener la cantidad de cuotas
-function obtenerCantidadCuotas(medioPagoSeleccionado) {
-    let partes = medioPagoSeleccionado.split(" ")
-    return parseInt(partes[3].replace("(", ""));    
-}
-
-function menu() {
-    let salirMenu = false;
-    do {
-        let opcionIngresada = parseInt(prompt(`Ingrese el número de la opción deseada
-            1 - Consultar catálogo
-            2 - Consultar catálogo ordenado alfabéticamente por nombre
-            3 - Buscar por nombre
-            4 - Buscar por precio
-            5 - Listar productos de menor a mayor por precio
-            6 - Listar productos de mayor a menor por precio            
-            0 - Salir del menú`));
-
-        // Validar que la opción ingresada sea un número y esté dentro del rango válido
-        if (!isNaN(opcionIngresada) && opcionIngresada >= 0 && opcionIngresada <= 6) {
-            switch (opcionIngresada) {
-                case 1:
-                    consultarCatalogo();
-                    break;
-                case 2:
-                    consultarCatalogoAlfabeticamente();
-                    break;
-                case 3:
-                    buscarPorNombre();
-                    break;
-                case 4:
-                    buscarPorPrecio();
-                    break;
-                case 5:
-                    listarProductosMenorMayorPrecio();
-                    break;
-                case 6:
-                    listarProductosMayorMenorPrecio();
-                    break;
-                case 0:
-                    salirMenu = true;
-                    break;
-            }
-        } else {
-            alert("Opción no válida. Por favor, ingrese una opción válida del menú.");
-        }
-    } while (!salirMenu);
-}
-
-function consultarCatalogo() {
-    let mensaje = "Catálogo de Productos:\n\n";   
-
-    catalogoDeProductos.forEach((producto) => {
-        mensaje += producto.mostrarInfo(); // Llama al método getInfo del producto
-        mensaje += "\n";
-    });
-
-    alert(mensaje);
-}
-
-function buscarPorNombre() {
-    let textoBusqueda = "";
-
-    while (textoBusqueda.trim() === "") {
-        textoBusqueda = prompt("Ingrese el texto a buscar en el nombre de los productos:");
-
-        if (textoBusqueda === null) {
-            return; // El usuario canceló la búsqueda
-        }
-
-        if (textoBusqueda.trim() === "") {
-            alert("El texto de búsqueda no puede estar vacío. Por favor, ingrese un texto válido.");
-        }
-    }
-
-    // Filtrar los productos que contienen el texto en su nombre
-    const productosEncontrados = catalogoDeProductos.filter((producto) => {
-        return producto.title.toLowerCase().includes(textoBusqueda.toLowerCase());
-    });
-
-    if (productosEncontrados.length === 0) {
-        alert("No se encontraron productos con el texto especificado en el nombre.");
-    } else {
-        let mensaje = `Productos encontrados con "${textoBusqueda}":\n\n`;
-
-        productosEncontrados.forEach((producto) => {
-            mensaje += producto.mostrarInfo(); // Llama al método mostrarInfo del producto
-            mensaje += "\n";
+            // Limitar la descripción a un número máximo de caracteres
+            const truncatedDescription = product.description.length > maxDescriptionLength
+                ? product.description.slice(0, maxDescriptionLength) + '...'
+                : product.description;
+        
+            productCard.innerHTML = `
+            <div class="card">
+                <img src="${product.image}" class="card-img-top product-image mx-auto" alt="${product.title}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${product.title}</h5>
+                    <p class="card-text">${truncatedDescription}</p>
+                    <p class="card-text">$${product.price.toFixed(2)}</p>                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <button type="button" class="btn btn-sm" onclick="decreaseQuantity(${product.id})">-</button>
+                        </span>
+                        <input type="number" class="form-control" value="1" min="1" id="quantity${product.id}">
+                        <span class="input-group-text">
+                            <button type="button" class="btn btn-sm" onclick="increaseQuantity(${product.id})">+</button>
+                        </span>
+                        <button class="btn btn-warning" onclick="addToCart(${product.id})">Agregar</button>
+                    </div>
+                </div>
+            </div>
+            `;
+        
+            // Establecer atributos de alto y ancho máximo a la imagen
+            const imageElement = productCard.querySelector('.product-image');
+            imageElement.setAttribute('style', 'max-width: 300px; max-height: 350px;');
+        
+            productGrid.appendChild(productCard);
         });
-
-        alert(mensaje);
-    }
+    }    
 }
 
-function buscarPorPrecio() {
-    let precioIngresado = null;
-
-    while (precioIngresado === null || isNaN(precioIngresado) || precioIngresado < 0) {
-        const precioTexto = prompt("Ingrese el precio máximo a pagar para buscar productos:");
-
-        if (precioTexto === null) {
-            return; // El usuario canceló la búsqueda
-        }
-
-        precioIngresado = parseFloat(precioTexto);
-
-        if (isNaN(precioIngresado) || precioIngresado < 0) {
-            alert("El precio ingresado no es válido. Por favor, ingrese un valor numérico mayor o igual a cero.");
-        }
-    }
-
-    // Filtrar los productos cuyo precio sea igual o mayor al precio ingresado
-    const productosEncontrados = catalogoDeProductos.filter((producto) => {
-        return producto.price <= precioIngresado;
-    });
-
-    if (productosEncontrados.length === 0) {
-        alert(`No se encontraron productos con precio igual o menor a $${precioIngresado.toFixed(2)}.`);
-    } else {
-        let mensaje = `Productos encontrados con precio igual o menor a $${precioIngresado.toFixed(2)}:\n\n`;
-
-        productosEncontrados.forEach((producto) => {
-            mensaje += producto.mostrarInfo(); // Llama al método mostrarInfo del producto
-            mensaje += "\n";
-        });
-
-        alert(mensaje);
-    }
-}
-
-function consultarCatalogoAlfabeticamente() {
+function listarProductosMayorMenorPrecio(array){
+    //copiar array: 
     // Copia el catálogo de productos para no modificar el original
-    const catalogoOrdenado = [...catalogoDeProductos];
-
-    // Ordena el catálogo alfabéticamente por el campo title
-    catalogoOrdenado.sort((a, b) => a.title.localeCompare(b.title));
-
-    let mensaje = "Catálogo de Productos (Ordenado Alfabéticamente):\n\n";
-
-    catalogoOrdenado.forEach((producto) => {
-        mensaje += producto.mostrarInfo(); // Llama al método mostrarInfo del producto
-        mensaje += "\n";
-    });
-
-    alert(mensaje);
-}
-
-function listarProductosMenorMayorPrecio() {
-    // Copia el catálogo de productos para no modificar el original
-    const catalogoOrdenado = [...catalogoDeProductos];
-
-    // Ordena el catálogo por precio de menor a mayor
-    catalogoOrdenado.sort((a, b) => a.price - b.price);
-
-    let mensaje = "Catálogo de Productos (Ordenado por Precio de Menor a Mayor):\n\n";
-
-    catalogoOrdenado.forEach((producto) => {
-        mensaje += producto.mostrarInfo(); // Llama al método mostrarInfo del producto
-        mensaje += "\n";
-    });
-
-    alert(mensaje);
-}
-
-function listarProductosMayorMenorPrecio() {
-    // Copia el catálogo de productos para no modificar el original
-    const catalogoOrdenado = [...catalogoDeProductos];
+    const catalogoOrdenado = [...array];
 
     // Ordena el catálogo por precio de mayor a menor
     catalogoOrdenado.sort((a, b) => b.price - a.price);
-
-    let mensaje = "Catálogo de Productos (Ordenado por Precio de Mayor a Menor):\n\n";
-
-    catalogoOrdenado.forEach((producto) => {
-        mensaje += producto.mostrarInfo(); // Llama al método mostrarInfo del producto
-        mensaje += "\n";
-    });
-
-    alert(mensaje);
+    mostrarCatalogoDOM(catalogoOrdenado);
 }
 
-// Función para actualizar la clase del botón de carrito y la cantidad de productos en el carrito
-function actualizarBotonCarrito() {
-    const botonCarrito = document.getElementById('botonCarrito');
-    const carritoCantidad = document.getElementById('carritoCantidad');
+function listarProductosMenorMayorPrecio(array){
+    //copiar array: 
+    // Copia el catálogo de productos para no modificar el original
+    const catalogoOrdenado = [...array];
 
-     // Calcular la suma de las cantidades de los productos en el carrito
-     let totalCantidad = 0;
-     for (const item of cart) {
-         totalCantidad += item.quantity;
-     }
+    // Ordena el catálogo por precio de mayor a menor
+    catalogoOrdenado.sort((a, b) => a.price - b.price);
+    mostrarCatalogoDOM(catalogoOrdenado);
+}
 
-    // Verificar si hay productos en el carrito
-    if (totalCantidad > 0) {
-        // Si hay productos en el carrito, establecer la clase a "btn-danger"
-        botonCarrito.classList.remove('btn-secondary');
-        botonCarrito.classList.add('btn-danger');
-        carritoCantidad.textContent = ' ' + totalCantidad.toString();;
-    } else {
-        // Si no hay productos en el carrito, establecer la clase a "btn-secondary"
-        botonCarrito.classList.remove('btn-danger');
-        botonCarrito.classList.add('btn-secondary');
+function consultarCatalogoAlfabeticamente(array){
+    //copiar array: 
+    // Copia el catálogo de productos para no modificar el original
+    const catalogoOrdenado = [...array];
+
+    // Ordena el catálogo por precio de mayor a menor
+    catalogoOrdenado.sort((a, b) => a.title.localeCompare(b.title));
+    mostrarCatalogoDOM(catalogoOrdenado);
+}
+
+function buscarInfo(buscado,array){
+    //me devuelve un array vacio si no encuentra, sino un array elementos con la coincidencias
+    let coincidencias = array.filter(
+        (producto) => {
+            //includes cualquier coincidencia parcial en el string con includes
+            return producto.title.toLowerCase().includes(buscado.toLowerCase()) || producto.description.toLowerCase().includes(buscado.toLowerCase())
+        }
+    )    
+    //ternario para evaluar si coincidencias está vacio
+    //ternario, tenemos varias instrucciones encerrar entre parentesis y separar por coma ,
+    coincidencias.length > 0 ? (mostrarCatalogoDOM(coincidencias), coincidenciasDiv.innerHTML ="") : (mostrarCatalogoDOM(array), coincidenciasDiv.innerHTML = `<h3>No hay coincidencias con su búsqueda, este es nuestro catálogo completo</h3>`);
+}
+
+function addToCart(productId) {
+    const quantity = parseInt(document.getElementById(`quantity${productId}`).value);
+    if (quantity > 0) {
+        const productToAdd = catalogoDeProductos.find(product => product.id === productId);
+        if (productToAdd) {
+            // Verificar si el producto ya está en el carrito
+            const existingCartItem = cart.find(item => item.product.id === productId);
+            if (existingCartItem) {
+                // Si el producto ya existe, aumentar la cantidad
+                existingCartItem.quantity += quantity;
+            } else {
+                // Si el producto no existe en el carrito, agregarlo
+                cart.push({
+                    product: productToAdd,
+                    quantity
+                });
+            }
+            localStorage.setItem("carrito", JSON.stringify(cart));
+
+            document.getElementById(`quantity${productId}`).value = 1;
+
+            // Llama a la función para actualizar el botón de carrito
+            actualizarBotonCarrito();
+        }
     }
 
-    // Actualizar la cantidad de productos en el carrito    
-    //carritoCantidad.textContent = ' ' + cart.length.toString();
+    cargarProductosCarrito(catalogoDeProductos);
 }
 
-// Llamar a la función para actualizar el botón de carrito cuando se carga la página
-actualizarBotonCarrito();
+//<p class="card-text">${productoCarrito.description}</p>
+function cargarProductosCarrito(array) {
+    modalBodyCarrito.innerHTML = "";
 
+    if (array.length === 0) {
+        modalBodyCarrito.innerHTML = `<p>No hay productos en el carrito</p>`;
+    } else {
+        array.forEach((item) => {
+            const productoCarrito = item.product;
+            const cantidad = item.quantity;
+
+            modalBodyCarrito.innerHTML += `
+                <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.id.toString()}" style="max-width: 540px;">
+                    <img class="card-img-top" max-width="100px" max-height="150px" src="${productoCarrito.image}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">${productoCarrito.title}</h4>
+                        
+                        <p class="card-text">Cantidad: ${cantidad}</p>
+                        <p class="card-text">$${(productoCarrito.price * cantidad).toFixed(2)}</p>
+                        <button class="btn btn-danger" id="botonEliminar${productoCarrito.id}" onclick="eliminarDelCarrito(${productoCarrito.id})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+         
+        calcularTotal(array);
+    }
+}
+
+function calcularTotal(array) {
+    // Inicializar la suma total a 0
+    let total = 0;
+
+    // Iterar sobre los elementos del carrito
+    for (const item of array) {
+        const producto = item.product;
+        const cantidad = item.quantity;
+
+        // Sumar al total el precio del producto multiplicado por la cantidad
+        total += producto.price * cantidad;
+    }
+
+    if (total > 0) {
+        // Si hay productos en el carrito, mostrar el total
+        precioTotal.innerHTML = `<strong>El total de su compra es: $${total.toFixed(2)}</strong>`;
+    } 
+    else {
+        // Si no hay productos en el carrito, mostrar un mensaje
+        precioTotal.innerHTML = ``;
+    }
+    // else {
+    //     // Si no hay productos en el carrito, mostrar un mensaje
+    //     precioTotal.innerHTML = `No hay productos en el carrito`;
+    // }
+}
+
+function eliminarDelCarrito(productId) {
+    // Encuentra el índice del producto en el carrito
+    const index = cart.findIndex(item => item.product.id === productId);
+
+    if (index !== -1) {
+        // Elimina el producto del carrito
+        cart.splice(index, 1);
+        localStorage.setItem("carrito", JSON.stringify(cart));
+
+        // Recarga la vista del carrito
+        cargarProductosCarrito(cart);
+
+        calcularTotal(cart);
+
+        // Actualiza el botón del carrito y la cantidad mostrada
+        actualizarBotonCarrito();        
+    }
+}
+
+function agregarSuplemento(array){
+    let nombre = document.getElementById("nombreInput")
+    let desc = document.getElementById("descripcionInput")
+    let precio = document.getElementById("precioInput")
+    //instanciarlo en un objeto:
+    const nuevoSuplemento = new Producto(array.length+1,"../img/Suplementos/suplementos_nuevo_producto.png",nombre.value, desc.value, parseInt(precio.value))
+    array.push(nuevoSuplemento)  
+    nombre.value =""
+    desc.value =""
+    precio.value =""    
+    // formCargarLibro.reset()  
+    //SETEAR STORAGE 
+    localStorage.setItem("catalogoDeProductos", JSON.stringify(array))
+
+    let catalogoDeProductos = []
+    if(localStorage.getItem("catalogoDeProductos")){
+        //hacer for of de catalogoDeProductos y pasarle new Producto
+        for(let producto of JSON.parse(localStorage.getItem("catalogoDeProductos"))){
+            let productoStorage = new Producto (producto.id,producto.image,producto.title,producto.description,producto.price)
+            catalogoDeProductos.push(productoStorage)
+        }
+
+    }
+}
+
+//FUNCIONES AUXILIARES
 //Funcion para decrementar las cantidades de unidades a agregar al carrito
-function decreaseQuantity(index) {
-    const quantityInput = document.getElementById(`quantity${index}`);
+function decreaseQuantity(productId) {
+    const quantityInput = document.getElementById(`quantity${productId}`);
     if (quantityInput.value > 1) {
         quantityInput.value = parseInt(quantityInput.value) - 1;
     }
 }
+
 //Funcion para aumentar las cantidades de unidades a agregar al carrito
-function increaseQuantity(index) {
-    const quantityInput = document.getElementById(`quantity${index}`);
+function increaseQuantity(productId) {
+    const quantityInput = document.getElementById(`quantity${productId}`);
     quantityInput.value = parseInt(quantityInput.value) + 1;
 }
+
 
 function iniciarSesion() {
     // Obtener los valores de usuario y contraseña ingresados
@@ -488,9 +341,90 @@ function iniciarSesion() {
     document.getElementById("contrasena").value = "";
 }
 
-//FIN CODIGO PARA CUMPLIMIENTO DE REQUISITOS DE PRE ENTREGA
+function actualizarBotonCarrito() {
+    const botonCarrito = document.getElementById('botonCarrito');
+    const carritoCantidad = document.getElementById('carritoCantidad');
+
+     // Calcular la suma de las cantidades de los productos en el carrito
+     let totalCantidad = 0;
+     for (const item of cart) {
+         totalCantidad += item.quantity;
+     }
+
+    // Verificar si hay productos en el carrito
+    if (totalCantidad > 0) {
+        // Si hay productos en el carrito, establecer la clase a "btn-danger"
+        botonCarrito.classList.remove('btn-secondary');
+        botonCarrito.classList.add('btn-danger');
+        carritoCantidad.textContent = ' ' + totalCantidad.toString();
+    } else {
+        // Si no hay productos en el carrito, establecer la clase a "btn-secondary"
+        botonCarrito.classList.remove('btn-danger');
+        botonCarrito.classList.add('btn-secondary');
+        carritoCantidad.textContent = '';
+    }
+
+    // Actualizar la cantidad de productos en el carrito    
+    //carritoCantidad.textContent = ' ' + cart.length.toString();
+}
+
+//EVENTOS DEL PROYECTO
+selectOrden.addEventListener("change", () => {
+    switch(selectOrden.value){
+        case "1":
+            listarProductosMayorMenorPrecio(catalogoDeProductos)
+        break
+        case "2":
+            listarProductosMenorMayorPrecio(catalogoDeProductos)
+        break
+        case "3":
+            consultarCatalogoAlfabeticamente(catalogoDeProductos)
+        break
+        default:
+            mostrarCatalogoDOM(catalogoDeProductos)
+        break
+    }
+})
+
+buscador.addEventListener("input", () => {
+    buscarInfo(buscador.value,catalogoDeProductos)
+})
+
+botonCarrito.addEventListener("click", () => {
+    cargarProductosCarrito(cart)
+})
+
+botonFinalizarCompra.addEventListener("click", () => {
+    cargarProductosCarrito(cart)
+})
+
+guardarSuplementoBtn.addEventListener("click", () =>{    
+    agregarSuplemento(catalogoDeProductos);
+    mostrarCatalogoDOM(catalogoDeProductos);
+} )
 
 // Esperar a que el documento esté completamente cargado
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("btnIniciarSesion").addEventListener("click", iniciarSesion);
 });
+
+// Agrega un evento click al botón "Finalizar Compra"
+botonFinalizarCompraModal.addEventListener("click", () => {
+    // Elimina el carrito del almacenamiento local
+    localStorage.removeItem("carrito");
+    
+    // Reinicia el array "cart" como un array vacío
+    cart = [];
+
+    // Actualiza el botón del carrito y la cantidad mostrada
+    actualizarBotonCarrito();
+
+    // Limpia y actualiza la vista del carrito en el modal
+    cargarProductosCarrito(cart);
+
+    precioTotal.innerHTML = ``;
+});
+
+//CÓDIGO
+mostrarCatalogoDOM(catalogoDeProductos);
+actualizarBotonCarrito();
