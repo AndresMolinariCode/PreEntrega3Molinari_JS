@@ -1,9 +1,7 @@
-Paso los items de la segunda PRE ENTREGA
+Paso los items de la tercera PRE ENTREGA
 
-- [ ]  HTML
-- [ ]  Variables necesarias
-- [ ]  Funciones esenciales para el proceso de simulación.
-- [ ]  Objetos de JS.
-- [ ]  Arrays.
-- [ ]  Métodos de búsqueda y filtrado sobre el Array.
-- [ ]  Tiene que entrar algo y salir otra cosas.
+- [ ]  Guadar los datos del catalogo y el carrito en la session y cargalos al abrir la pagina
+- [ ]  Poder agregar un nuevo producto
+- [ ]  Poder ordenar alfabeticamente y por precio
+- [ ]  Poder buscar un producto en un cuadro de busqueda
+- [ ]  Agregar productos al carrito y mostrar el carrito de compra

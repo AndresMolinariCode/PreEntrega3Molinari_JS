@@ -216,7 +216,7 @@ function cargarProductosCarrito(array) {
             const cantidad = item.quantity;
 
             modalBodyCarrito.innerHTML += `
-                <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.id}" style="max-width: 540px;">
+                <div class="card border-primary mb-3" id="productoCarrito${productoCarrito.id.toString()}" style="max-width: 540px;">
                     <img class="card-img-top" max-width="100px" max-height="150px" src="${productoCarrito.image}" alt="">
                     <div class="card-body">
                         <h4 class="card-title">${productoCarrito.title}</h4>
@@ -294,6 +294,16 @@ function agregarSuplemento(array){
     // formCargarLibro.reset()  
     //SETEAR STORAGE 
     localStorage.setItem("catalogoDeProductos", JSON.stringify(array))
+
+    let catalogoDeProductos = []
+    if(localStorage.getItem("catalogoDeProductos")){
+        //hacer for of de catalogoDeProductos y pasarle new Producto
+        for(let producto of JSON.parse(localStorage.getItem("catalogoDeProductos"))){
+            let productoStorage = new Producto (producto.id,producto.image,producto.title,producto.description,producto.price)
+            catalogoDeProductos.push(productoStorage)
+        }
+
+    }
 }
 
 //FUNCIONES AUXILIARES
