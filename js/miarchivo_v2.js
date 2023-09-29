@@ -81,9 +81,12 @@ let botonCarrito = document.getElementById("botonCarrito");
 let botonFinalizarCompra = document.getElementById("finalizarCompraBtn");
 let modalBodyCarrito = document.getElementById("modal-bodyCarrito");
 let botonFinalizarCompraModal = document.getElementById("botonFinalizarCompra");
+let guardarSuplementoBtn = document.getElementById("guardarSuplementoBtn")
 
 //FUNCIONES
 const maxDescriptionLength = 100; // Número máximo de caracteres para la descripción
+
+
 
 function mostrarCatalogoDOM(array){
     //resetear el container
@@ -105,7 +108,7 @@ function mostrarCatalogoDOM(array){
                 <div class="card-body text-center">
                     <h5 class="card-title">${product.title}</h5>
                     <p class="card-text">${truncatedDescription}</p>
-                    <p class="card-text">$${product.price.toFixed(2)}</p>
+                    <p class="card-text">$${product.price.toFixed(2)}</p>                    
                     <div class="input-group mb-3">
                         <span class="input-group-text">
                             <button type="button" class="btn btn-sm" onclick="decreaseQuantity(${product.id})">-</button>
@@ -278,6 +281,21 @@ function eliminarDelCarrito(productId) {
     }
 }
 
+function agregarSuplemento(array){
+    let nombre = document.getElementById("nombreInput")
+    let desc = document.getElementById("descripcionInput")
+    let precio = document.getElementById("precioInput")
+    //instanciarlo en un objeto:
+    const nuevoSuplemento = new Producto(array.length+1,"../img/Suplementos/suplementos_nuevo_producto.png",nombre.value, desc.value, parseInt(precio.value))
+    array.push(nuevoSuplemento)  
+    nombre.value =""
+    desc.value =""
+    precio.value =""    
+    // formCargarLibro.reset()  
+    //SETEAR STORAGE 
+    localStorage.setItem("catalogoDeProductos", JSON.stringify(array))
+}
+
 //FUNCIONES AUXILIARES
 //Funcion para decrementar las cantidades de unidades a agregar al carrito
 function decreaseQuantity(productId) {
@@ -369,6 +387,11 @@ botonCarrito.addEventListener("click", () => {
 botonFinalizarCompra.addEventListener("click", () => {
     cargarProductosCarrito(cart)
 })
+
+guardarSuplementoBtn.addEventListener("click", () =>{    
+    agregarSuplemento(catalogoDeProductos);
+    mostrarCatalogoDOM(catalogoDeProductos);
+} )
 
 // Esperar a que el documento esté completamente cargado
 document.addEventListener("DOMContentLoaded", function() {
